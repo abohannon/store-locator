@@ -32,3 +32,26 @@ export const createMap = container => {
     })
   })
 }
+
+export const flyToLocation = currentLocation => {
+  if (typeof map !== 'undefined') {
+    map.flyTo({
+      center: currentLocation.geometry.coordinates,
+      zoom: 15,
+    })
+  }
+}
+
+export const createPopup = currentLocation => {
+  const popUps = document.getElementsByClassName('mapboxgl-popup')
+  /** Check if there is already a popup on the map and if so, remove it */
+  if (popUps[0]) popUps[0].remove()
+
+  const popup = new mapboxgl.Popup({ closeOnClick: false })
+    .setLngLat(currentLocation.geometry.coordinates)
+    .setHTML(
+      `<h3>${currentLocation.properties.name}</h3>` +
+        `<h4>${currentLocation.properties.address}</h4>`,
+    )
+    .addTo(map)
+}

@@ -2,7 +2,7 @@ import React from 'react'
 import PropTypes from 'prop-types'
 import styled from '@emotion/styled'
 import ListingItem from './ListingItem'
-import { map } from '../../vendor/mapbox'
+import { map, flyToLocation, createPopup } from '../../vendor/mapbox'
 
 const Wrapper = styled.div`
   width: 33.3333%;
@@ -33,13 +33,9 @@ const Listings = styled.div`
 `
 
 const Sidebar = ({ locations }) => {
-  const flyToLocation = currentLocation => {
-    if (typeof map !== 'undefined') {
-      map.flyTo({
-        center: currentLocation.geometry.coordinates,
-        zoom: 15,
-      })
-    }
+  const onListingItemClick = currentLocation => {
+    flyToLocation(currentLocation)
+    createPopup(currentLocation)
   }
 
   return (
@@ -53,7 +49,7 @@ const Sidebar = ({ locations }) => {
             <ListingItem
               key={location.properties.name}
               properties={location.properties}
-              onClick={() => flyToLocation(location)}
+              onClick={() => onListingItemClick(location)}
             />
           )
         })}

@@ -18,20 +18,6 @@ const App = () => {
     createMap('map-container')
   }, [])
 
-  // const createPopup = () => {
-  //   const popUps = document.getElementsByClassName('mapboxgl-popup')
-  //   /** Check if there is already a popup on the map and if so, remove it */
-  //   if (popUps[0]) popUps[0].remove()
-
-  //   const popup = new mapboxgl.Popup({ closeOnClick: false })
-  //     .setLngLat(currentFeature.geometry.coordinates)
-  //     .setHTML(
-  //       `<h3>${currentFeature.properties.name}</h3>` +
-  //         `<h4>${currentFeature.properties.address}</h4>`,
-  //     )
-  //     .addTo(map)
-  // }
-
   return (
     <div id="app" css={root}>
       <Sidebar locations={shops.features} />
