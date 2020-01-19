@@ -3,6 +3,9 @@ import PropTypes from 'prop-types'
 import styled from '@emotion/styled'
 
 const Wrapper = styled.div`
+  background-color: ${({ activeLocation, locationId }) => {
+    return activeLocation === locationId ? '#eee' : '#fff'
+  }};
   display: block;
   border-bottom: 1px solid #eee;
   padding: 10px;
@@ -15,9 +18,13 @@ const Name = styled.a`
   font-weight: 700;
 `
 
-const ListingItem = ({ properties: { name, address, city }, onClick }) => {
+const ListingItem = ({
+  properties: { name, address, city, id },
+  activeLocation,
+  onClick,
+}) => {
   return (
-    <Wrapper>
+    <Wrapper locationId={id} activeLocation={activeLocation}>
       <Name href="#" onClick={onClick}>
         {name}
       </Name>

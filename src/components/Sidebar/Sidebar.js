@@ -1,4 +1,4 @@
-import React from 'react'
+import React, { useState } from 'react'
 import PropTypes from 'prop-types'
 import styled from '@emotion/styled'
 import ListingItem from './ListingItem'
@@ -33,9 +33,12 @@ const Listings = styled.div`
 `
 
 const Sidebar = ({ locations }) => {
+  const [activeLocation, setActiveLocation] = useState(null)
+
   const onListingItemClick = currentLocation => {
     flyToLocation(currentLocation)
     createPopup(currentLocation)
+    setActiveLocation(currentLocation.properties.id)
   }
 
   return (
@@ -48,6 +51,7 @@ const Sidebar = ({ locations }) => {
           return (
             <ListingItem
               key={location.properties.name}
+              activeLocation={activeLocation}
               properties={location.properties}
               onClick={() => onListingItemClick(location)}
             />
