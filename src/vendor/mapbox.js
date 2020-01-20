@@ -29,7 +29,7 @@ export const addMarkers = (ReactEl, shops, map) => {
   shops.features.forEach(function(marker) {
     /* Create a div element for the marker. */
     var el = document.createElement('div')
-    ReactDOM.render(<ReactEl marker={marker} />, el)
+    ReactDOM.render(<ReactEl marker={marker} map={map} />, el)
 
     new mapboxgl.Marker(el, { offset: [0, -23] })
       .setLngLat(marker.geometry.coordinates)

@@ -31,7 +31,13 @@ const App = () => {
           data: shops,
         })
 
-        addMarkers(Icon, shops, map)
+        const IconElement = props =>
+          React.createElement(Icon, {
+            setActiveLocation,
+            ...props,
+          })
+
+        addMarkers(IconElement, shops, map)
       })
     }
   }, [map])
