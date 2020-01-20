@@ -25,11 +25,12 @@ export const createPopup = (currentLocation, map) => {
     .addTo(map)
 }
 
-export const addMarkers = (ReactEl, shops, map) => {
-  shops.features.forEach(function(marker) {
-    /* Create a div element for the marker. */
+export const addMarkers = (ReactEl, options) => {
+  const { locations, map, props } = options
+
+  locations.features.forEach(function(marker) {
     var el = document.createElement('div')
-    ReactDOM.render(<ReactEl marker={marker} map={map} />, el)
+    ReactDOM.render(<ReactEl marker={marker} map={map} {...props} />, el)
 
     new mapboxgl.Marker(el, { offset: [0, -23] })
       .setLngLat(marker.geometry.coordinates)
@@ -48,16 +49,6 @@ export const createMap = container => {
     center: [-77.034084, 38.909671],
     zoom: 14,
   })
-
-  // map.on('load', function(e) {
-  //   /* Add the data to your map as a layer */
-  //   map.addSource('places', {
-  //     type: 'geojson',
-  //     data: shops,
-  //   })
-
-  //   addMarkers()
-  // })
 
   return map
 }

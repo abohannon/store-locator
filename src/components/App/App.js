@@ -1,6 +1,5 @@
-/** @jsx jsx */
 import React, { useState, useEffect } from 'react'
-import { jsx, css } from '@emotion/core'
+import styled from '@emotion/styled'
 import Map from '../Map'
 import Sidebar from '../Sidebar'
 import Icon from '../Icon'
@@ -8,7 +7,7 @@ import { createMap, addMarkers } from '../../vendor/mapbox'
 import { shops } from '../../test-data'
 import 'mapbox-gl/dist/mapbox-gl.css'
 
-const root = css`
+const Wrapper = styled.div`
   display: flex;
   flex-direction: row;
   height: 100%;
@@ -31,19 +30,21 @@ const App = () => {
           data: shops,
         })
 
-        const IconElement = props =>
-          React.createElement(Icon, {
+        const options = {
+          map,
+          locations: shops,
+          props: {
             setActiveLocation,
-            ...props,
-          })
+          },
+        }
 
-        addMarkers(IconElement, shops, map)
+        addMarkers(Icon, options)
       })
     }
   }, [map])
 
   return (
-    <div id="app" css={root}>
+    <Wrapper id="app">
       <Sidebar
         map={map}
         locations={shops.features}
@@ -51,7 +52,7 @@ const App = () => {
         setActiveLocation={setActiveLocation}
       />
       <Map map={map} />
-    </div>
+    </Wrapper>
   )
 }
 

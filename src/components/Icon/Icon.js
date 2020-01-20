@@ -6,6 +6,7 @@ import icon from '../../no-means-no.png'
 const Wrapper = styled.div`
   background: url(${icon}) no-repeat;
   background-size: 42px;
+  background-position: center;
   border: none;
   cursor: pointer;
   height: 56px;
