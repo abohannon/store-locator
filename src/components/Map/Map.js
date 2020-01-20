@@ -1,6 +1,7 @@
 import React, { useEffect } from 'react'
 import PropTypes from 'prop-types'
 import styled from '@emotion/styled'
+import { flyToLocation, createPopup } from '../../vendor/mapbox'
 
 const Wrapper = styled.div`
   background-color: goldenrod;
@@ -15,10 +16,31 @@ const Wrapper = styled.div`
   box-sizing: border-box;
 `
 
-const Map = props => {
+const Map = ({ map }) => {
+  const handleMapClick = e => {
+    /* Determine if a feature in the "locations" layer exists at that point. */
+    const features = map.queryRenderedFeatures(e.point, {
+      layers: ['locations'],
+    })
+
+    if (features.length) {
+      const clickedPoint = features[0]
+      flyToLocation(clickedPoint, map)
+      createPopup(clickedPoint, map)
+    }
+  }
+
+  useEffect(() => {
+    if (map) {
+      map.on('click', handleMapClick)
+    }
+  }, [map])
+
   return <Wrapper id="map-container"></Wrapper>
 }
 
-Map.propTypes = {}
+Map.propTypes = {
+  map: PropTypes.object,
+}
 
 export default Map

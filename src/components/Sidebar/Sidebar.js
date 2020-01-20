@@ -1,8 +1,8 @@
-import React, { useState } from 'react'
+import React from 'react'
 import PropTypes from 'prop-types'
 import styled from '@emotion/styled'
 import ListingItem from './ListingItem'
-import { map, flyToLocation, createPopup } from '../../vendor/mapbox'
+import { flyToLocation, createPopup } from '../../vendor/mapbox'
 
 const Wrapper = styled.div`
   width: 33.3333%;
@@ -32,12 +32,10 @@ const Listings = styled.div`
   padding-bottom: 60px;
 `
 
-const Sidebar = ({ locations }) => {
-  const [activeLocation, setActiveLocation] = useState(null)
-
+const Sidebar = ({ map, locations, activeLocation, setActiveLocation }) => {
   const onListingItemClick = currentLocation => {
-    flyToLocation(currentLocation)
-    createPopup(currentLocation)
+    flyToLocation(currentLocation, map)
+    createPopup(currentLocation, map)
     setActiveLocation(currentLocation.properties.id)
   }
 

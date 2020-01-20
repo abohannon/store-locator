@@ -1,9 +1,9 @@
 /** @jsx jsx */
-import React, { useEffect } from 'react'
+import React, { useState, useEffect } from 'react'
 import { jsx, css } from '@emotion/core'
 import Map from '../Map'
 import Sidebar from '../Sidebar'
-import { createMap, map } from '../../vendor/mapbox'
+import { createMap } from '../../vendor/mapbox'
 import { shops } from '../../test-data'
 import 'mapbox-gl/dist/mapbox-gl.css'
 
@@ -14,14 +14,22 @@ const root = css`
 `
 
 const App = () => {
+  const [activeLocation, setActiveLocation] = useState(null)
+  const [map, setMap] = useState(null)
+
   useEffect(() => {
-    createMap('map-container')
+    setMap(createMap('map-container'))
   }, [])
 
   return (
     <div id="app" css={root}>
-      <Sidebar locations={shops.features} />
-      <Map />
+      <Sidebar
+        map={map}
+        locations={shops.features}
+        activeLocation={activeLocation}
+        setActiveLocation={setActiveLocation}
+      />
+      <Map map={map} />
     </div>
   )
 }

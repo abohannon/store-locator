@@ -4,7 +4,7 @@ import styled from '@emotion/styled'
 
 const Wrapper = styled.div`
   background-color: ${({ activeLocation, locationId }) => {
-    return activeLocation === locationId ? '#eee' : '#fff'
+    return activeLocation === locationId ? '#f8f8f8' : '#fff'
   }};
   display: block;
   border-bottom: 1px solid #eee;
