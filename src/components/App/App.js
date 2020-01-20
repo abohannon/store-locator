@@ -6,6 +6,7 @@ import Sidebar from '../Sidebar'
 import { createMap } from '../../vendor/mapbox'
 import { shops } from '../../test-data'
 import 'mapbox-gl/dist/mapbox-gl.css'
+import '../../no-means-no.png'
 
 const root = css`
   display: flex;

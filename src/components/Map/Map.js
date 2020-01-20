@@ -19,10 +19,9 @@ const Wrapper = styled.div`
 const Map = ({ map }) => {
   const handleMapClick = e => {
     /* Determine if a feature in the "locations" layer exists at that point. */
-    const features = map.queryRenderedFeatures(e.point, {
-      layers: ['locations'],
-    })
-
+    const features = map.querySourceFeatures('places')
+    console.log(e)
+    console.log(features)
     if (features.length) {
       const clickedPoint = features[0]
       flyToLocation(clickedPoint, map)

@@ -12,3 +12,13 @@ code {
   font-family: source-code-pro, Menlo, Monaco, Consolas, 'Courier New',
     monospace;
 }
+
+.marker {
+  background: url('./no-means-no.png') no-repeat;
+  background-size: 42px;
+  border: none;
+  cursor: pointer;
+  height: 56px;
+  width: 56px;
+  background-color: rgba(0, 0, 0, 0);
+}

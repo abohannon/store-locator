@@ -38,20 +38,33 @@ export const createMap = container => {
 
   map.on('load', function(e) {
     /* Add the data to your map as a layer */
-    map.addLayer({
-      id: 'locations',
-      type: 'symbol',
-      /* Add a GeoJSON source containing place coordinates and information. */
-      source: {
-        type: 'geojson',
-        data: shops,
-      },
-      layout: {
-        'icon-image': 'restaurant-15',
-        'icon-allow-overlap': true,
-      },
+    map.addSource('places', {
+      type: 'geojson',
+      data: shops,
     })
+
+    addMarkers()
   })
+
+  function addMarkers() {
+    /* For each feature in the GeoJSON object above: */
+    shops.features.forEach(function(marker) {
+      /* Create a div element for the marker. */
+      var el = document.createElement('div')
+      /* Assign a unique `id` to the marker. */
+      el.id = 'marker-' + marker.properties.id
+      /* Assign the `marker` class to each marker for styling. */
+      el.className = 'marker'
+
+      /**
+       * Create a marker using the div element
+       * defined above and add it to the map.
+       **/
+      new mapboxgl.Marker(el, { offset: [0, -23] })
+        .setLngLat(marker.geometry.coordinates)
+        .addTo(map)
+    })
+  }
 
   return map
 }
