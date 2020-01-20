@@ -3,9 +3,11 @@ import styled from '@emotion/styled'
 import Map from '../Map'
 import Sidebar from '../Sidebar'
 import Icon from '../Icon'
-import { createMap, addMarkers } from '../../vendor/mapbox'
+import { createMap, addMarkers, onMapLoad } from '../../vendor/mapbox'
 import { shops } from '../../test-data'
 import 'mapbox-gl/dist/mapbox-gl.css'
+import '@mapbox/mapbox-gl-geocoder/dist/mapbox-gl-geocoder.css'
+import './app.css'
 
 const Wrapper = styled.div`
   display: flex;
@@ -23,23 +25,15 @@ const App = () => {
 
   useEffect(() => {
     if (map) {
-      map.on('load', function(e) {
-        /* Add the data to your map as a layer */
-        map.addSource('places', {
-          type: 'geojson',
-          data: shops,
-        })
+      const options = {
+        map,
+        locations: shops,
+        props: {
+          setActiveLocation,
+        },
+      }
 
-        const options = {
-          map,
-          locations: shops,
-          props: {
-            setActiveLocation,
-          },
-        }
-
-        addMarkers(Icon, options)
-      })
+      onMapLoad(shops, map, () => addMarkers(Icon, options))
     }
   }, [map])
 

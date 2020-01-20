@@ -1,6 +1,8 @@
 import mapboxgl from 'mapbox-gl'
+import MapboxGeocoder from '@mapbox/mapbox-gl-geocoder'
 import React from 'react'
 import ReactDOM from 'react-dom'
+import { MAPBOX_PUBLIC_ACCESS_TOKEN, MAPBOX_STYLE_URL } from '../constants'
 
 export const flyToLocation = (currentLocation, map) => {
   if (typeof map !== 'undefined') {
@@ -39,16 +41,35 @@ export const addMarkers = (ReactEl, options) => {
 }
 
 export const createMap = container => {
-  mapboxgl.accessToken =
-    'pk.eyJ1IjoiYWJvaGFubm9uIiwiYSI6ImNrNWVkMmkzcjI1dzYzZW4wM2ZqdzkwbDIifQ.Rw64L1g9NgOoqW1FwJtslA'
-  const style = 'mapbox://styles/abohannon/ck5ep1nzk0vxp1io6otxr6u0c'
+  mapboxgl.accessToken = MAPBOX_PUBLIC_ACCESS_TOKEN
 
   const map = new mapboxgl.Map({
     container,
-    style,
+    style: MAPBOX_STYLE_URL,
     center: [-77.034084, 38.909671],
     zoom: 14,
   })
 
   return map
+}
+
+export const onMapLoad = (locations, map, cb) => {
+  map.on('load', function(e) {
+    /* Add the data to your map as a layer */
+    map.addSource('places', {
+      type: 'geojson',
+      data: locations,
+    })
+
+    var geocoder = new MapboxGeocoder({
+      accessToken: mapboxgl.accessToken, // Set the access token
+      mapboxgl, // Set the mapbox-gl instance
+      marker: true, // Use the geocoder's default marker style
+      bbox: [-77.210763, 38.803367, -76.853675, 39.052643], // Set the bounding box coordinates
+    })
+
+    map.addControl(geocoder, 'top-left')
+
+    cb()
+  })
 }
