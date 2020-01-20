@@ -3,10 +3,10 @@ import React, { useState, useEffect } from 'react'
 import { jsx, css } from '@emotion/core'
 import Map from '../Map'
 import Sidebar from '../Sidebar'
-import { createMap } from '../../vendor/mapbox'
+import Icon from '../Icon'
+import { createMap, addMarkers } from '../../vendor/mapbox'
 import { shops } from '../../test-data'
 import 'mapbox-gl/dist/mapbox-gl.css'
-import '../../no-means-no.png'
 
 const root = css`
   display: flex;
@@ -21,6 +21,20 @@ const App = () => {
   useEffect(() => {
     setMap(createMap('map-container'))
   }, [])
+
+  useEffect(() => {
+    if (map) {
+      map.on('load', function(e) {
+        /* Add the data to your map as a layer */
+        map.addSource('places', {
+          type: 'geojson',
+          data: shops,
+        })
+
+        addMarkers(Icon, shops, map)
+      })
+    }
+  }, [map])
 
   return (
     <div id="app" css={root}>

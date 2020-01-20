@@ -1,5 +1,6 @@
 import mapboxgl from 'mapbox-gl'
-import { shops } from '../test-data'
+import React from 'react'
+import ReactDOM from 'react-dom'
 
 export const flyToLocation = (currentLocation, map) => {
   if (typeof map !== 'undefined') {
@@ -24,6 +25,18 @@ export const createPopup = (currentLocation, map) => {
     .addTo(map)
 }
 
+export const addMarkers = (ReactEl, shops, map) => {
+  shops.features.forEach(function(marker) {
+    /* Create a div element for the marker. */
+    var el = document.createElement('div')
+    ReactDOM.render(<ReactEl marker={marker} />, el)
+
+    new mapboxgl.Marker(el, { offset: [0, -23] })
+      .setLngLat(marker.geometry.coordinates)
+      .addTo(map)
+  })
+}
+
 export const createMap = container => {
   mapboxgl.accessToken =
     'pk.eyJ1IjoiYWJvaGFubm9uIiwiYSI6ImNrNWVkMmkzcjI1dzYzZW4wM2ZqdzkwbDIifQ.Rw64L1g9NgOoqW1FwJtslA'
@@ -36,35 +49,15 @@ export const createMap = container => {
     zoom: 14,
   })
 
-  map.on('load', function(e) {
-    /* Add the data to your map as a layer */
-    map.addSource('places', {
-      type: 'geojson',
-      data: shops,
-    })
+  // map.on('load', function(e) {
+  //   /* Add the data to your map as a layer */
+  //   map.addSource('places', {
+  //     type: 'geojson',
+  //     data: shops,
+  //   })
 
-    addMarkers()
-  })
-
-  function addMarkers() {
-    /* For each feature in the GeoJSON object above: */
-    shops.features.forEach(function(marker) {
-      /* Create a div element for the marker. */
-      var el = document.createElement('div')
-      /* Assign a unique `id` to the marker. */
-      el.id = 'marker-' + marker.properties.id
-      /* Assign the `marker` class to each marker for styling. */
-      el.className = 'marker'
-
-      /**
-       * Create a marker using the div element
-       * defined above and add it to the map.
-       **/
-      new mapboxgl.Marker(el, { offset: [0, -23] })
-        .setLngLat(marker.geometry.coordinates)
-        .addTo(map)
-    })
-  }
+  //   addMarkers()
+  // })
 
   return map
 }
