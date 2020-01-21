@@ -16,24 +16,29 @@ const Wrapper = styled.div`
 `
 
 const App = () => {
+  const [locations, setLocations] = useState(undefined)
   const [activeLocation, setActiveLocation] = useState(null)
   const [map, setMap] = useState(null)
 
   useEffect(() => {
-    setMap(createMap('map-container'))
+    // TODO: Update with real data
+    setTimeout(() => {
+      setLocations(shops)
+      setMap(createMap('map-container'))
+    }, 2000)
   }, [])
 
   useEffect(() => {
-    if (map) {
+    if (locations) {
       const options = {
         map,
-        locations: shops,
+        locations,
         props: {
           setActiveLocation,
         },
       }
 
-      onMapLoad(shops, map, () => addMarkers(Icon, options))
+      onMapLoad(locations, map, () => addMarkers(Icon, options))
     }
   }, [map])
 
@@ -41,7 +46,7 @@ const App = () => {
     <Wrapper id="app">
       <Sidebar
         map={map}
-        locations={shops.features}
+        locations={locations && locations.features}
         activeLocation={activeLocation}
         setActiveLocation={setActiveLocation}
       />

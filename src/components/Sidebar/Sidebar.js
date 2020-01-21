@@ -32,7 +32,12 @@ const Listings = styled.div`
   padding-bottom: 60px;
 `
 
-const Sidebar = ({ map, locations, activeLocation, setActiveLocation }) => {
+const Sidebar = ({
+  map,
+  locations = [],
+  activeLocation,
+  setActiveLocation,
+}) => {
   const onListingItemClick = currentLocation => {
     flyToLocation(currentLocation, map)
     createPopup(currentLocation, map)
@@ -64,7 +69,7 @@ Sidebar.propTypes = {
   locations: PropTypes.array,
 }
 
-Sidebar.propTypes = {
+Sidebar.defaultProps = {
   locations: [],
 }
 

@@ -1,5 +1,6 @@
 import mapboxgl from 'mapbox-gl'
 import MapboxGeocoder from '@mapbox/mapbox-gl-geocoder'
+import * as turf from '@turf/turf'
 import React from 'react'
 import ReactDOM from 'react-dom'
 import { MAPBOX_PUBLIC_ACCESS_TOKEN, MAPBOX_STYLE_URL } from '../constants'
@@ -29,7 +30,7 @@ export const createPopup = (currentLocation, map) => {
 
 export const addMarkers = (ReactEl, options) => {
   const { locations, map, props } = options
-
+  console.log('locations', locations)
   locations.features.forEach(function(marker) {
     var el = document.createElement('div')
     ReactDOM.render(<ReactEl marker={marker} map={map} {...props} />, el)
@@ -61,15 +62,44 @@ export const onMapLoad = (locations, map, cb) => {
       data: locations,
     })
 
-    var geocoder = new MapboxGeocoder({
-      accessToken: mapboxgl.accessToken, // Set the access token
-      mapboxgl, // Set the mapbox-gl instance
-      marker: true, // Use the geocoder's default marker style
-      bbox: [-77.210763, 38.803367, -76.853675, 39.052643], // Set the bounding box coordinates
-    })
-
-    map.addControl(geocoder, 'top-left')
-
+    map.addControl(initGeocoder(), 'top-left')
+    sortLocationsByDistance()
     cb()
   })
+
+  function initGeocoder() {
+    const geocoder = new MapboxGeocoder({
+      accessToken: mapboxgl.accessToken,
+      mapboxgl,
+      marker: true,
+      bbox: [-77.210763, 38.803367, -76.853675, 39.052643],
+    })
+
+    geocoder.on('result', function(ev) {
+      var searchResult = ev.result.geometry
+      var options = { units: 'miles' }
+      locations.features.forEach(location => {
+        Object.defineProperty(location.properties, 'distance', {
+          value: turf.distance(searchResult, location.geometry, options),
+          writable: true,
+          enumerable: true,
+          configurable: true,
+        })
+      })
+    })
+
+    return geocoder
+  }
+
+  function sortLocationsByDistance() {
+    locations.features.sort(function(a, b) {
+      if (a.properties.distance > b.properties.distance) {
+        return 1
+      }
+      if (a.properties.distance < b.properties.distance) {
+        return -1
+      }
+      return 0
+    })
+  }
 }
