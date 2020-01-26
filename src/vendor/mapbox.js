@@ -54,11 +54,7 @@ export const createMap = container => {
   return map
 }
 
-export const onMapLoad = (locations, map, options) => {
-  const {
-    props: { setLocations },
-    callback,
-  } = options
+export const loadMap = (locations, map, callback) => {
   map.on('load', function(e) {
     /* Add the data to your map as a layer */
     map.addSource('places', {
@@ -66,10 +62,12 @@ export const onMapLoad = (locations, map, options) => {
       data: locations,
     })
 
-    map.addControl(initGeocoder(), 'top-left')
-
     callback()
   })
+}
+
+export const loadGeocoder = (locations, map, setLocations) => {
+  map.addControl(initGeocoder(), 'top-left')
 
   function initGeocoder() {
     const geocoder = new MapboxGeocoder({

@@ -19,10 +19,15 @@ const Name = styled.a`
 `
 
 const ListingItem = ({
-  properties: { name, address, city, id },
+  properties: { name, address, city, id, distance },
   activeLocation,
   onClick,
 }) => {
+  let roundedDistance
+  if (distance) {
+    roundedDistance = Math.round(distance * 100) / 100
+  }
+
   return (
     <Wrapper locationId={id} activeLocation={activeLocation}>
       <Name href="#" onClick={onClick}>
@@ -30,6 +35,11 @@ const ListingItem = ({
       </Name>
       <div>{address}</div>
       <div>{city}</div>
+      {distance && (
+        <p>
+          <strong>{`${roundedDistance} miles away`}</strong>
+        </p>
+      )}
     </Wrapper>
   )
 }

@@ -3,7 +3,12 @@ import styled from '@emotion/styled'
 import Map from '../Map'
 import Sidebar from '../Sidebar'
 import Icon from '../Icon'
-import { createMap, addMarkers, onMapLoad } from '../../vendor/mapbox'
+import {
+  createMap,
+  addMarkers,
+  loadMap,
+  loadGeocoder,
+} from '../../vendor/mapbox'
 import { shops } from '../../test-data'
 import 'mapbox-gl/dist/mapbox-gl.css'
 import '@mapbox/mapbox-gl-geocoder/dist/mapbox-gl-geocoder.css'
@@ -30,9 +35,8 @@ const App = () => {
 
   useEffect(() => {
     if (locations) {
-      const callback = data => {
+      const callback = () => {
         addMarkers(addMarkersOptions)
-        console.log('data', data)
       }
 
       const addMarkersOptions = {
@@ -44,14 +48,8 @@ const App = () => {
         },
       }
 
-      const onMapLoadOptions = {
-        props: {
-          setLocations,
-        },
-        callback,
-      }
-
-      onMapLoad(locations, map, onMapLoadOptions)
+      loadMap(locations, map, callback)
+      loadGeocoder(locations, map, setLocations)
     }
   }, [map])
 
