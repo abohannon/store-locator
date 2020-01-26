@@ -95,6 +95,12 @@ export const loadGeocoder = (locations, map, setLocations) => {
         type: 'FeatureCollection',
         features: sorted,
       })
+
+      const bbox = getBox(locations, 0, searchResult)
+
+      map.fitBounds(bbox, {
+        padding: 100,
+      })
     })
 
     return geocoder
@@ -110,5 +116,31 @@ export const loadGeocoder = (locations, map, setLocations) => {
       }
       return 0
     })
+  }
+
+  function getBox(sortedLocations, locationIdentifier, searchResult) {
+    const lats = [
+      sortedLocations.features[locationIdentifier].geometry.coordinates[1],
+      searchResult.coordinates[1],
+    ]
+
+    const lons = [
+      sortedLocations.features[locationIdentifier].geometry.coordinates[0],
+      searchResult.coordinates[0],
+    ]
+
+    const sortedLons = lons.sort(sortDistance)
+    const sortedLats = lats.sort(sortDistance)
+
+    return [
+      [sortedLons[0], sortedLats[0]],
+      [sortedLons[1], sortedLats[1]],
+    ]
+
+    function sortDistance(a, b) {
+      if (a > b) return 1
+      if (a.distance < b.distance) return -1
+      return 0
+    }
   }
 }
