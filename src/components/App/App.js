@@ -56,6 +56,7 @@ const App = () => {
   return (
     <Wrapper id="app">
       <Sidebar
+        title="Participating shops"
         map={map}
         locations={locations && locations.features}
         activeLocation={activeLocation}

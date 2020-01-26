@@ -6,24 +6,20 @@ import { flyToLocation, createPopup } from '../../vendor/mapbox'
 
 const Wrapper = styled.div`
   width: 33.3333%;
-  padding: 20px;
   position: absolute;
   height: 100%;
   top: 0;
   left: 0;
   overflow: hidden;
   border-right: 1px solid rgba(0, 0, 0, 0.25);
-  -webkit-box-sizing: border-box;
-  -moz-box-sizing: border-box;
-  box-sizing: border-box;
 `
 
 const Heading = styled.div`
-  background: #fff;
+  background: #e3f4fb;
   border-bottom: 1px solid #eee;
-  height: 60px;
-  line-height: 60px;
-  padding: 0 10px;
+  line-height: 40px;
+  padding: 8px;
+  font-size: 1.5rem;
 `
 
 const Listings = styled.div`
@@ -33,6 +29,7 @@ const Listings = styled.div`
 `
 
 const Sidebar = ({
+  title,
   map,
   locations = [],
   activeLocation,
@@ -46,9 +43,7 @@ const Sidebar = ({
 
   return (
     <Wrapper>
-      <Heading>
-        <h1>Participating shops</h1>
-      </Heading>
+      <Heading>{title}</Heading>
       <Listings>
         {locations.map((location, i) => {
           return (
