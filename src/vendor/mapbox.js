@@ -28,9 +28,9 @@ export const createPopup = (currentLocation, map) => {
     .addTo(map)
 }
 
-export const addMarkers = (ReactEl, options) => {
-  const { locations, map, props } = options
-  console.log('locations', locations)
+export const addMarkers = options => {
+  const { icon: ReactEl, locations, map, props } = options
+
   locations.features.forEach(function(marker) {
     var el = document.createElement('div')
     ReactDOM.render(<ReactEl marker={marker} map={map} {...props} />, el)
@@ -54,7 +54,11 @@ export const createMap = container => {
   return map
 }
 
-export const onMapLoad = (locations, map, cb) => {
+export const onMapLoad = (locations, map, options) => {
+  const {
+    props: { setLocations },
+    callback,
+  } = options
   map.on('load', function(e) {
     /* Add the data to your map as a layer */
     map.addSource('places', {
@@ -63,8 +67,8 @@ export const onMapLoad = (locations, map, cb) => {
     })
 
     map.addControl(initGeocoder(), 'top-left')
-    sortLocationsByDistance()
-    cb()
+
+    callback()
   })
 
   function initGeocoder() {
@@ -86,13 +90,20 @@ export const onMapLoad = (locations, map, cb) => {
           configurable: true,
         })
       })
+
+      const sorted = sortLocationsByDistance()
+
+      setLocations({
+        type: 'FeatureCollection',
+        features: sorted,
+      })
     })
 
     return geocoder
   }
 
   function sortLocationsByDistance() {
-    locations.features.sort(function(a, b) {
+    return locations.features.sort(function(a, b) {
       if (a.properties.distance > b.properties.distance) {
         return 1
       }

@@ -30,7 +30,13 @@ const App = () => {
 
   useEffect(() => {
     if (locations) {
-      const options = {
+      const callback = data => {
+        addMarkers(addMarkersOptions)
+        console.log('data', data)
+      }
+
+      const addMarkersOptions = {
+        icon: Icon,
         map,
         locations,
         props: {
@@ -38,7 +44,14 @@ const App = () => {
         },
       }
 
-      onMapLoad(locations, map, () => addMarkers(Icon, options))
+      const onMapLoadOptions = {
+        props: {
+          setLocations,
+        },
+        callback,
+      }
+
+      onMapLoad(locations, map, onMapLoadOptions)
     }
   }, [map])
 
