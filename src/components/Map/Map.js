@@ -2,7 +2,6 @@ import React from 'react'
 import styled from '@emotion/styled'
 
 const Wrapper = styled.div`
-  background-color: goldenrod;
   border-left: 1px solid #fff;
   position: absolute;
   left: 33.3333%;

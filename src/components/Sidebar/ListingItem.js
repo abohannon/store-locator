@@ -14,7 +14,7 @@ const Wrapper = styled.div`
 
 const Name = styled.a`
   display: block;
-  color: #00853e;
+  color: ${props => props.theme.gray300};
   font-weight: 700;
 `
 

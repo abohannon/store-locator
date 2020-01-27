@@ -15,17 +15,21 @@ const Wrapper = styled.div`
 `
 
 const Heading = styled.div`
-  background: #e3f4fb;
-  border-bottom: 1px solid #eee;
+  background: ${props => props.theme.gray300};
+  border-bottom: 1px solid ${props => props.theme.gray100};
   line-height: 40px;
   padding: 8px;
   font-size: 1.5rem;
+  color: ${props => props.theme.white};
 `
 
 const Listings = styled.div`
   height: 100%;
   overflow: auto;
   padding-bottom: 60px;
+  box-sizing: border-box;
+  line-height: 24px;
+  color: ${props => props.theme.gray200};
 `
 
 const Sidebar = ({

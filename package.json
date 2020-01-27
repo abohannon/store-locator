@@ -10,6 +10,7 @@
     "@testing-library/react": "^9.3.2",
     "@testing-library/user-event": "^7.1.2",
     "@turf/turf": "^5.1.6",
+    "emotion-theming": "^10.0.27",
     "mapbox-gl": "^1.6.1",
     "react": "^16.12.0",
     "react-dom": "^16.12.0",
