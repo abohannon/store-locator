@@ -1,5 +1,6 @@
 import React from 'react'
 import styled from '@emotion/styled'
+import Popup from '../Popup'
 import { flyToLocation, createPopup } from '../../vendor/mapbox'
 import icon from '../../no-means-no.png'
 
@@ -17,7 +18,7 @@ const Wrapper = styled.div`
 const Icon = ({ marker, map, setActiveLocation }) => {
   const handleClick = e => {
     flyToLocation(marker, map)
-    createPopup(marker, map)
+    createPopup(marker, map, Popup)
     setActiveLocation(marker.properties.id)
     e.stopPropagation()
   }

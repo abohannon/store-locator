@@ -7,4 +7,5 @@ export const theme = {
   linen: '#f5f3e6',
   mistyrose: '#ffe9dd',
   white: '#fff',
+  spacing: factor => `${factor * 8}px`,
 }

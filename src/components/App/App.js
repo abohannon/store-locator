@@ -36,16 +36,7 @@ const App = () => {
   useEffect(() => {
     if (locations) {
       const callback = () => {
-        addMarkers(addMarkersOptions)
-      }
-
-      const addMarkersOptions = {
-        icon: Icon,
-        map,
-        locations,
-        props: {
-          setActiveLocation,
-        },
+        addMarkers(locations, map, Icon, setActiveLocation)
       }
 
       loadMap(locations, map, callback)

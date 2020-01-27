@@ -2,6 +2,7 @@ import React from 'react'
 import PropTypes from 'prop-types'
 import styled from '@emotion/styled'
 import ListingItem from './ListingItem'
+import Popup from '../Popup'
 import { flyToLocation, createPopup } from '../../vendor/mapbox'
 
 const Wrapper = styled.div`
@@ -41,7 +42,7 @@ const Sidebar = ({
 }) => {
   const onListingItemClick = currentLocation => {
     flyToLocation(currentLocation, map)
-    createPopup(currentLocation, map)
+    createPopup(currentLocation, map, Popup)
     setActiveLocation(currentLocation.properties.id)
   }
 

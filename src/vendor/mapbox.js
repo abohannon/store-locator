@@ -14,26 +14,34 @@ export const flyToLocation = (currentLocation, map) => {
   }
 }
 
-export const createPopup = (currentLocation, map) => {
+export const createPopup = (currentLocation, map, Popup) => {
   const popUps = document.getElementsByClassName('mapboxgl-popup')
   /** Check if there is already a popup on the map and if so, remove it */
   if (popUps[0]) popUps[0].remove()
 
-  const popup = new mapboxgl.Popup({ closeOnClick: false })
+  const el = document.createElement('div')
+  ReactDOM.render(
+    <Popup
+      key={currentLocation.properties.name}
+      name={currentLocation.properties.name}
+      address={currentLocation.properties.address}
+    />,
+    el,
+  )
+
+  const popup = new mapboxgl.Popup({ closeButton: false })
     .setLngLat(currentLocation.geometry.coordinates)
-    .setHTML(
-      `<h3>${currentLocation.properties.name}</h3>` +
-        `<h4>${currentLocation.properties.address}</h4>`,
-    )
+    .setDOMContent(el)
     .addTo(map)
 }
 
-export const addMarkers = options => {
-  const { icon: ReactEl, locations, map, props } = options
-
+export const addMarkers = (locations, map, Icon, setActiveLocation) => {
   locations.features.forEach(function(marker) {
     var el = document.createElement('div')
-    ReactDOM.render(<ReactEl marker={marker} map={map} {...props} />, el)
+    ReactDOM.render(
+      <Icon marker={marker} map={map} setActiveLocation={setActiveLocation} />,
+      el,
+    )
 
     new mapboxgl.Marker(el, { offset: [0, -23] })
       .setLngLat(marker.geometry.coordinates)
