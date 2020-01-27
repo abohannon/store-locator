@@ -18,8 +18,12 @@ const Name = styled.a`
   font-weight: 700;
 `
 
+const Distance = styled.p`
+  color: ${props => props.theme.gray200};
+`
+
 const ListingItem = ({
-  properties: { name, address, city, id, distance },
+  properties: { name, street, city, state, country, phone, id, distance },
   activeLocation,
   onClick,
 }) => {
@@ -33,12 +37,12 @@ const ListingItem = ({
       <Name href="#" onClick={onClick}>
         {name}
       </Name>
-      <div>{address}</div>
-      <div>{city}</div>
+      <div>{street}</div>
+      <div>{`${city} ${state}`}</div>
       {distance && (
-        <p>
+        <Distance>
           <strong>{`${roundedDistance} miles away`}</strong>
-        </p>
+        </Distance>
       )}
     </Wrapper>
   )
