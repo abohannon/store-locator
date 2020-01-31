@@ -8,6 +8,7 @@ import {
   addMarkers,
   loadMap,
   loadGeocoder,
+  createGeoJson,
 } from '../../vendor/mapbox'
 import { shops } from '../../locationData'
 import 'mapbox-gl/dist/mapbox-gl.css'
@@ -25,12 +26,14 @@ const App = () => {
   const [activeLocation, setActiveLocation] = useState(null)
   const [map, setMap] = useState(null)
 
+  const fetchLocations = async () => {
+    const locations = await createGeoJson()
+    setLocations(locations)
+    setMap(createMap('map-container'))
+  }
+
   useEffect(() => {
-    // TODO: Update with real data
-    setTimeout(() => {
-      setLocations(shops)
-      setMap(createMap('map-container'))
-    }, 2000)
+    fetchLocations()
   }, [])
 
   useEffect(() => {

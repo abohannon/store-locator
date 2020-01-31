@@ -1,6 +1,7 @@
 import mapboxgl from 'mapbox-gl'
 import MapboxGeocoder from '@mapbox/mapbox-gl-geocoder'
 import * as turf from '@turf/turf'
+import Tabletop from 'tabletop'
 import React from 'react'
 import ReactDOM from 'react-dom'
 import { MAPBOX_PUBLIC_ACCESS_TOKEN, MAPBOX_STYLE_URL } from '../constants'
@@ -49,6 +50,69 @@ export const addMarkers = (locations, map, Icon, setActiveLocation) => {
   })
 }
 
+export const createGeoJson = async () => {
+  try {
+    const url =
+      'https://docs.google.com/spreadsheets/d/1PzOmbsWPMOkF7lsU-eQbdd2ZF_tQ6tS6C4b_xQfP6jE/edit?usp=sharing'
+
+    const data = await Tabletop.init({
+      key: url,
+      simpleSheet: true,
+    })
+
+    const geojson = {
+      type: 'FeatureCollection',
+      features: [],
+    }
+
+    data.forEach(
+      (
+        {
+          shop,
+          address,
+          city,
+          state,
+          postal_code,
+          country,
+          phone,
+          lat,
+          lon,
+          google_maps_url,
+        },
+        index,
+      ) => {
+        const longitude = lon ? parseFloat(lon) : ''
+        const latitude = lat ? parseFloat(lat) : ''
+
+        geojson.features.push({
+          type: 'Feature',
+          id: index,
+          geometry: {
+            type: 'Point',
+            coordinates: [longitude, latitude],
+          },
+          properties: {
+            name: shop,
+            address,
+            city,
+            state,
+            postal_code,
+            country,
+            phone,
+            google_maps_url,
+            lat,
+            lon,
+          },
+        })
+      },
+    )
+
+    return geojson
+  } catch (err) {
+    console.log('Error in createGeoJson', err)
+  }
+}
+
 export const createMap = container => {
   mapboxgl.accessToken = MAPBOX_PUBLIC_ACCESS_TOKEN
 
@@ -62,7 +126,7 @@ export const createMap = container => {
   return map
 }
 
-export const loadMap = (locations, map, callback) => {
+export const loadMap = async (locations, map, callback) => {
   map.on('load', function(e) {
     /* Add the data to your map as a layer */
     map.addSource('places', {
@@ -79,7 +143,7 @@ export const loadGeocoder = (locations, map, setLocations) => {
 
   function initGeocoder() {
     const geocoder = new MapboxGeocoder({
-      accessToken: mapboxgl.accessToken,
+      accessToken: MAPBOX_PUBLIC_ACCESS_TOKEN,
       mapboxgl,
       marker: true,
       bbox: [-77.210763, 38.803367, -76.853675, 39.052643],

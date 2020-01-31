@@ -10731,7 +10731,7 @@ request-promise-native@^1.0.5:
     stealthy-require "^1.1.1"
     tough-cookie "^2.3.3"
 
-request@^2.87.0, request@^2.88.0:
+request@^2.51.0, request@^2.87.0, request@^2.88.0:
   version "2.88.0"
   resolved "https://registry.yarnpkg.com/request/-/request-2.88.0.tgz#9c2fca4f7d35b592efe57c7f0a55e81052124fef"
   integrity sha512-NAqBSrijGLZdM0WZNsInLJpkJokL72XYjUpnB0iwsRgxh7dB6COrHnTBNwN0E+lHDAJzu7kLAkDeY08z2/A0hg==
@@ -11792,6 +11792,14 @@ table@^5.2.3:
     lodash "^4.17.14"
     slice-ansi "^2.1.0"
     string-width "^3.0.0"
+
+tabletop@^1.6.2:
+  version "1.6.2"
+  resolved "https://registry.yarnpkg.com/tabletop/-/tabletop-1.6.2.tgz#cf946c4fd77dcc7a35b2071ed3484e14b9c0c18b"
+  integrity sha512-9dXB9uPIF6AWN4D2F3fYpE177HPwXzqHZgv89R1zrA3Ztc/uCs8bY2nlHuXUb6FTpu7hAI8xCURKybVNBs5fMA==
+  dependencies:
+    lodash "^4.17.12"
+    request "^2.51.0"
 
 tapable@^1.0.0, tapable@^1.1.0, tapable@^1.1.3:
   version "1.1.3"
