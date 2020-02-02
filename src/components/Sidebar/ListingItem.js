@@ -23,7 +23,7 @@ const Distance = styled.p`
 `
 
 const ListingItem = ({
-  properties: { name, street, city, state, country, phone, id, distance },
+  properties: { name, address, city, state, country, phone, id, distance },
   activeLocation,
   onClick,
 }) => {
@@ -37,8 +37,8 @@ const ListingItem = ({
       <Name href="#" onClick={onClick}>
         {name}
       </Name>
-      <div>{street}</div>
-      <div>{`${city} ${state}`}</div>
+      <div>{address}</div>
+      <div>{`${city}, ${state} ${country}`}</div>
       {distance && (
         <Distance>
           <strong>{`${roundedDistance} miles away`}</strong>

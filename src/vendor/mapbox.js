@@ -4,7 +4,11 @@ import * as turf from '@turf/turf'
 import Tabletop from 'tabletop'
 import React from 'react'
 import ReactDOM from 'react-dom'
-import { MAPBOX_PUBLIC_ACCESS_TOKEN, MAPBOX_STYLE_URL } from '../constants'
+import {
+  MAPBOX_PUBLIC_ACCESS_TOKEN,
+  MAPBOX_STYLE_URL,
+  GOOGLE_SHEETS_URL,
+} from '../constants'
 
 export const flyToLocation = (currentLocation, map) => {
   if (typeof map !== 'undefined') {
@@ -20,12 +24,31 @@ export const createPopup = (currentLocation, map, Popup) => {
   /** Check if there is already a popup on the map and if so, remove it */
   if (popUps[0]) popUps[0].remove()
 
+  const {
+    properties: {
+      name,
+      address,
+      city,
+      state,
+      country,
+      phone,
+      google_maps_url,
+      instagram_url,
+    },
+  } = currentLocation
+
   const el = document.createElement('div')
   ReactDOM.render(
     <Popup
-      key={currentLocation.properties.name}
-      name={currentLocation.properties.name}
-      address={currentLocation.properties.address}
+      key={name}
+      name={name}
+      address={address}
+      city={city}
+      state={state}
+      country={country}
+      phone={phone}
+      googleMapsUrl={google_maps_url}
+      instagramUrl={instagram_url}
     />,
     el,
   )
@@ -52,11 +75,8 @@ export const addMarkers = (locations, map, Icon, setActiveLocation) => {
 
 export const createGeoJson = async () => {
   try {
-    const url =
-      'https://docs.google.com/spreadsheets/d/1PzOmbsWPMOkF7lsU-eQbdd2ZF_tQ6tS6C4b_xQfP6jE/edit?usp=sharing'
-
     const data = await Tabletop.init({
-      key: url,
+      key: GOOGLE_SHEETS_URL,
       simpleSheet: true,
     })
 
@@ -78,6 +98,7 @@ export const createGeoJson = async () => {
           lat,
           lon,
           google_maps_url,
+          instagram_url,
         },
         index,
       ) => {
@@ -100,6 +121,7 @@ export const createGeoJson = async () => {
             country,
             phone,
             google_maps_url,
+            instagram_url,
             lat,
             lon,
           },
@@ -119,8 +141,8 @@ export const createMap = container => {
   const map = new mapboxgl.Map({
     container,
     style: MAPBOX_STYLE_URL,
-    center: [-77.034084, 38.909671],
-    zoom: 14,
+    center: [-48.331871, 32.792194],
+    zoom: 2,
   })
 
   return map
@@ -146,7 +168,6 @@ export const loadGeocoder = (locations, map, setLocations) => {
       accessToken: MAPBOX_PUBLIC_ACCESS_TOKEN,
       mapboxgl,
       marker: true,
-      bbox: [-77.210763, 38.803367, -76.853675, 39.052643],
     })
 
     geocoder.on('result', function(ev) {
