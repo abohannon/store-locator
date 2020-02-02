@@ -19,7 +19,7 @@ const Icon = ({ marker, map, setActiveLocation }) => {
   const handleClick = e => {
     flyToLocation(marker, map)
     createPopup(marker, map, Popup)
-    setActiveLocation(marker.properties.id)
+    setActiveLocation(marker.id)
     e.stopPropagation()
   }
 

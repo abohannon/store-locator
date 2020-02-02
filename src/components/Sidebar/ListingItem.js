@@ -23,8 +23,9 @@ const Distance = styled.p`
 `
 
 const ListingItem = ({
-  properties: { name, address, city, state, country, phone, id, distance },
+  properties: { name, address, city, state, country, distance },
   activeLocation,
+  locationId,
   onClick,
 }) => {
   let roundedDistance
@@ -33,7 +34,7 @@ const ListingItem = ({
   }
 
   return (
-    <Wrapper locationId={id} activeLocation={activeLocation}>
+    <Wrapper locationId={locationId} activeLocation={activeLocation}>
       <Name href="#" onClick={onClick}>
         {name}
       </Name>

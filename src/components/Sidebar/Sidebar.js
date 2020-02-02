@@ -43,7 +43,7 @@ const Sidebar = ({
   const onListingItemClick = currentLocation => {
     flyToLocation(currentLocation, map)
     createPopup(currentLocation, map, Popup)
-    setActiveLocation(currentLocation.properties.id)
+    setActiveLocation(currentLocation.id)
   }
 
   return (
@@ -56,6 +56,7 @@ const Sidebar = ({
               key={location.properties.name}
               activeLocation={activeLocation}
               properties={location.properties}
+              locationId={location.id}
               onClick={() => onListingItemClick(location)}
             />
           )
