@@ -12,10 +12,11 @@ const Wrapper = styled.div`
   text-decoration: none;
 `
 
-const Name = styled.a`
+const Name = styled.div`
   display: block;
   color: ${props => props.theme.gray300};
   font-weight: 700;
+  cursor: pointer;
 `
 
 const Distance = styled.p`
@@ -35,9 +36,7 @@ const ListingItem = ({
 
   return (
     <Wrapper locationId={locationId} activeLocation={activeLocation}>
-      <Name href="#" onClick={onClick}>
-        {name}
-      </Name>
+      <Name onClick={onClick}>{name}</Name>
       <div>{address}</div>
       <div>{`${city}, ${state} ${country}`}</div>
       {distance && (

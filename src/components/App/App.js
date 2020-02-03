@@ -48,7 +48,7 @@ const App = () => {
   }, [map])
 
   return (
-    <Wrapper id="app">
+    <Wrapper id="app" class="app">
       <Sidebar
         title="Participating shops"
         map={map}

@@ -141,7 +141,7 @@ export const createMap = container => {
   const map = new mapboxgl.Map({
     container,
     style: MAPBOX_STYLE_URL,
-    center: [-48.331871, 32.792194],
+    center: [-97.975645, 38.737471],
     zoom: 2,
   })
 

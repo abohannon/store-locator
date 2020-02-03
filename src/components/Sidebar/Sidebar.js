@@ -13,6 +13,11 @@ const Wrapper = styled.div`
   left: 0;
   overflow: hidden;
   border-right: 1px solid rgba(0, 0, 0, 0.25);
+  @media (max-width: 420px) {
+    height: 100%;
+    width: 100%;
+    top: 66.66666%;
+  }
 `
 
 const Heading = styled.div`

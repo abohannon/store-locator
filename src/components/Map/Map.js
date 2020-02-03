@@ -11,6 +11,12 @@ const Wrapper = styled.div`
   -webkit-box-sizing: border-box;
   -moz-box-sizing: border-box;
   box-sizing: border-box;
+  @media (max-width: 420px) {
+    width: 100%;
+    bottom: 33.33333%;
+    border-left: unset;
+    left: 0;
+  }
 `
 
 const Map = () => <Wrapper id="map-container"></Wrapper>
