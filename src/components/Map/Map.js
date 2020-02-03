@@ -12,8 +12,10 @@ const Wrapper = styled.div`
   -moz-box-sizing: border-box;
   box-sizing: border-box;
   @media (max-width: 420px) {
+    position: relative;
+    order: 0;
     width: 100%;
-    bottom: 33.33333%;
+    height: 400px;
     border-left: unset;
     left: 0;
   }
