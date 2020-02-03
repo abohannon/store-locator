@@ -10,7 +10,6 @@ import {
   loadGeocoder,
   createGeoJson,
 } from '../../vendor/mapbox'
-import { shops } from '../../locationData'
 import 'mapbox-gl/dist/mapbox-gl.css'
 import '@mapbox/mapbox-gl-geocoder/dist/mapbox-gl-geocoder.css'
 import './app.css'
